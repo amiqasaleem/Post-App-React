@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import AppLayout from '../Components/AppLayout'
 import RegisterPage from '../Pages/RegisterPage'
 import LoginPage from '../Pages/LoginPage'
@@ -36,13 +36,14 @@ const AppRouter = () => {
     <>
         <BrowserRouter>
         <Routes>
+        
             <Route path='/' element={<AppLayout><Home/></AppLayout>}/>
             <Route path='/about' element={<AppLayout><About/></AppLayout>}/>
             <Route path='/contact' element={<AppLayout><Contact/></AppLayout>}/>
             <Route path='/services' element={<AppLayout><Services/></AppLayout>}/>
-            <Route path='/profile' element={<AppLayout><Profile/></AppLayout>}/>
-            <Route path='/register' element={<RegisterPage/>}/>
-            <Route path='/login' element={<LoginPage/>}/>
+            <Route path='/profile' element={isUser?<AppLayout><Profile/></AppLayout>:<Navigate to={'/login'}/>}/>
+            <Route path='/login' element={isUser?<Navigate to={'/profile'}/>:<LoginPage/>}/>
+            <Route path='/register' element={isUser?<Navigate to={'/profile'}/>:<RegisterPage/>}/>
             <Route path='*' element={<PageNotFound/>}/>
         </Routes>
         </BrowserRouter>
